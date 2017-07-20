@@ -3,6 +3,7 @@ struct
   structure SD  = SortData
   structure ATA = AstToAbt
   structure SA  = ShowAbt
+  structure D = Dynamics
 
   fun stringreader s =
     let
@@ -31,6 +32,15 @@ struct
 
   open Coord
   open Pos
+
+  local
+    open D
+  in
+    fun bigstep exp =
+      case D.step exp of
+        FINAL => (print "Final.\n"; exp)
+      | STEP exp' => (print "Taking a step.\n"; bigstep exp')
+  end
 
   fun main (name, args) =
     let
