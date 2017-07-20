@@ -48,9 +48,11 @@ struct
     in
       let
         val lexer = MAParser.makeLexer (stringreader input) "-"
-        val (result, _) = MAParser.parse (1, lexer, error "-", "-")
+        val (parseResult, _) = MAParser.parse (1, lexer, error "-", "-")
         val mctx  = Abt.Metavariable.Ctx.empty
-        val out = SA.toString (ATA.convert mctx (result, SD.EXP))
+        val abt = ATA.convert mctx (parseResult, SD.EXP)
+        val result = bigstep abt
+        val out = SA.toString result
       in
         (printLn out; 0)
       end
